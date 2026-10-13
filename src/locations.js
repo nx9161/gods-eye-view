@@ -520,6 +520,52 @@ export const CITY_POIS = {
       },
     ],
   },
+  udaipur: {
+    name: 'Udaipur',
+    groundElevation: 600, // meters above WGS84 ellipsoid (city ~598m)
+    viewBounds: {
+      southwest: { lat: 24.54, lng: 73.64 },
+      northeast: { lat: 24.64, lng: 73.75 },
+    },
+    pois: [
+      {
+        name: 'City Palace',
+        lat: 24.5762,
+        lon: 73.6835,
+        alt: 500,
+        pitch: -25,
+        heading: 90,
+        buildingHeight: 30,
+      },
+      {
+        name: 'Lake Pichola',
+        lat: 24.5725,
+        lon: 73.68,
+        alt: 600,
+        pitch: -30,
+        heading: 0,
+        buildingHeight: 10,
+      },
+      {
+        name: 'Fateh Sagar Lake',
+        lat: 24.6023,
+        lon: 73.6794,
+        alt: 600,
+        pitch: -30,
+        heading: 90,
+        buildingHeight: 10,
+      },
+      {
+        name: 'Fatehpura (BnB area)',
+        lat: 24.601,
+        lon: 73.7115,
+        alt: 450,
+        pitch: -28,
+        heading: 270,
+        buildingHeight: 15,
+      },
+    ],
+  },
 };
 
 /**
