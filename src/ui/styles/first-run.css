@@ -138,10 +138,6 @@
   border: 1px solid rgba(100, 200, 220, 0.18);
   border-radius: 0.42rem;
   cursor: pointer;
-  transition:
-    background var(--transition-fast),
-    border-color var(--transition-fast),
-    transform var(--transition-fast);
   /* Staggered entrance when the modal reveals — free cinema. */
   opacity: 0;
   transform: translateY(8px);

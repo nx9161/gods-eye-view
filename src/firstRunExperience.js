@@ -448,9 +448,12 @@ export function initFirstRunExperience({
     for (const button of buttons)
       button.setAttribute('aria-disabled', String(next));
     if (!status) return;
-    if (next)
+    if (next) {
+      // The MIC tip may be hidden (voice unconfigured) — but launch feedback
+      // must always show. Unhide before writing busy text (Hank Pym M1).
+      status.removeAttribute('hidden');
       status.textContent = FIRST_RUN_MISSIONS[choice]?.busyText || 'Working…';
-    else if (status.dataset.sticky !== 'true')
+    } else if (status.dataset.sticky !== 'true')
       status.textContent = defaultStatus;
   };
 

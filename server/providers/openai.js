@@ -33,9 +33,25 @@ function openAiRealtimeProxy({
 
     middlewares.use(
       '/api/realtime/token',
-      sameSiteGated(
-        createRealtimeTokenHandler({ ...realtime, annotationGuidance }),
-      ),
+      sameSiteGated((req, res, next) => {
+        // Parity with the Vercel probe: answer configuration without
+        // minting a throwaway token.
+        if (req.method === 'GET' && req.query?.probe === '1') {
+          res.setHeader('Content-Type', 'application/json');
+          res.setHeader('Cache-Control', 'no-store');
+          res.end(
+            JSON.stringify({
+              configured: Boolean(process.env.OPENAI_API_KEY),
+            }),
+          );
+          return;
+        }
+        return createRealtimeTokenHandler({ ...realtime, annotationGuidance })(
+          req,
+          res,
+          next,
+        );
+      }),
     );
 
     middlewares.use(

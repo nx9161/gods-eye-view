@@ -89,8 +89,14 @@ export function createVoiceControl({ reset = false } = {}) {
     root.dataset.status = 'setup';
     const statusEl = root.querySelector('#gev-voice-status');
     const detailEl = root.querySelector('#gev-voice-detail');
+    const buttonEl = root.querySelector('#gev-voice-button');
     if (statusEl) statusEl.textContent = 'SETUP NEEDED';
     if (detailEl) detailEl.textContent = 'VOICE NEEDS API KEY';
+    // Don't arm a trigger that can't work — explain instead of erroring.
+    if (buttonEl) {
+      buttonEl.setAttribute('aria-disabled', 'true');
+      buttonEl.title = 'Voice needs an API key — set OPENAI_API_KEY to enable';
+    }
   });
   return {
     root,

@@ -16,8 +16,10 @@
  *    pointless on serverless; adsbdb route data also carries a
  *    no-redistribution restriction).
  *
- * Hobby-window discipline: 8s upstream timeout, ~2MB response cap, 60s
- * module-level cache with serve-stale-on-error (per-instance on serverless).
+ * Hobby-window discipline: 8s upstream timeout per source, ~2MB response cap,
+ * 60s module-level cache (fresh-serve within TTL, serve-stale-on-error),
+ * sequential failover. maxDuration is 20s so a primary stall doesn't kill
+ * the failover attempt.
  */
 import { normalizeAdsbLolPointResponse } from '../../src/data/adsbLolFallback.js';
 import { vercelSameSiteOk } from '../_lib/vercel-same-site.js';
@@ -129,6 +131,18 @@ export default async function handler(req, res) {
   const key = `${lat.toFixed(2)},${lon.toFixed(2)}`;
   const now = Date.now();
   const cached = cache.get(key);
+
+  // Fresh-serve within TTL: the module cache is real, not just stale-fallback.
+  if (cached && now - cached.cachedAt < CACHE_MS) {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'public, max-age=30, s-maxage=30');
+    res.setHeader('X-Flight-Source', cached.source);
+    res.setHeader('X-Flight-Coverage', `${RADIUS_NM}nm regional`);
+    res.setHeader('X-Flight-Count', String(cached.count));
+    res.end(cached.body);
+    return;
+  }
 
   try {
     const fresh = await fetchSnapshot(lat, lon);
