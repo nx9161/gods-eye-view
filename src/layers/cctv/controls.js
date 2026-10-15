@@ -5,6 +5,7 @@ import {
   DEFAULT_CAMERA_CALIBRATION,
   CALIBRATION_RANGE_FLOOR_M,
 } from './policy.js';
+import { setCctvFrameDelayUntil } from '../../ui/cctvFrameDelay.js';
 
 export function createControls({ state: layerState, services, parts, source }) {
   const { holdContinuousRender, releaseContinuousRender } = services.render;
@@ -297,7 +298,11 @@ export function createControls({ state: layerState, services, parts, source }) {
       const result = parts.selection.setActiveCamera(cameraId);
       if (result === CCTV_ACTIVATION_RESULT.NOT_FOUND) return false;
       if (options.focus) {
-        parts.navigation.focusCamera(cameraId, options.durationSec || 1.8);
+        const durationSec = options.durationSec || 1.8;
+        // Choreographed handoff (Psylocke N1): the frame fades in at 70%
+        // of the fly-to, timed to the routeRampFraction curve.
+        setCctvFrameDelayUntil(Date.now() + durationSec * 0.7 * 1000);
+        parts.navigation.focusCamera(cameraId, durationSec);
       }
       return true;
     },

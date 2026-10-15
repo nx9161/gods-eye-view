@@ -1,4 +1,5 @@
 import { createCctvVideoSurface } from './cctvVideo.js';
+import { consumeCctvFrameDelay } from './cctvFrameDelay.js';
 export function _calBadgeLabel(badge) {
   switch (badge) {
     case 'calibrated':
@@ -199,7 +200,19 @@ export function _renderCctvState(state) {
       (cameraChanged ||
         (!frameLoading && this._cctvFrame.dataset.currentSrc !== nextSrc))
     ) {
-      this._queueCctvFrame(nextSrc, nextCameraId, cameraChanged);
+      // Choreographed handoff (Psylocke N1): on a focused camera switch,
+      // hold the frame until 70% of the fly-to completes, then let the
+      // existing opacity transition cross-fade it in as the globe arrives.
+      const delayMs = cameraChanged ? consumeCctvFrameDelay() : 0;
+      if (delayMs > 0) {
+        const token = this._cctvFrameRequestToken;
+        setTimeout(() => {
+          if (!this.destroyed && token === this._cctvFrameRequestToken)
+            this._queueCctvFrame(nextSrc, nextCameraId, true);
+        }, delayMs);
+      } else {
+        this._queueCctvFrame(nextSrc, nextCameraId, cameraChanged);
+      }
     }
     if (!nextSrc) {
       this._clearCctvFrame();
