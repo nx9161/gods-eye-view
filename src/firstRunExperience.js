@@ -352,6 +352,7 @@ export function initFirstRunExperience({
     })
   ) {
     root.remove();
+    maybeShowResumeChip({ styleManager, dataManager, documentRef, storage });
     return null;
   }
 
@@ -492,6 +493,7 @@ export function initFirstRunExperience({
     }
     if (closing) return;
     if (outcome?.ok) {
+      recordLastMission(choice, storage);
       dismiss();
       return;
     }
@@ -648,4 +650,58 @@ export function initFirstRunExperience({
     root.remove();
   };
   return { dismiss, isTopmost, destroy };
+}
+
+const LAST_MISSION_KEY = 'godsEyeView.lastMission';
+
+const MISSION_LABELS = Object.freeze({
+  contacts: 'Live Contacts',
+  'space-missions': 'Space Missions',
+  environmental: 'Environmental',
+  explore: 'Explore',
+});
+
+/**
+ * Quick-resume chip (Scarlet Witch): returning visitors get one tap to
+ * re-run their last successful mission, no modal. Only shows when a mission
+ * was actually completed before.
+ */
+export function maybeShowResumeChip({
+  styleManager,
+  dataManager = styleManager?._dataManager,
+  documentRef = globalThis.document,
+  storage,
+} = {}) {
+  const last = readStored('local', storage, LAST_MISSION_KEY);
+  if (!last || !FIRST_RUN_MISSIONS[last] || last === 'explore') return null;
+  if (documentRef?.getElementById?.('gev-resume-chip')) return null;
+
+  const chip = documentRef.createElement('button');
+  chip.id = 'gev-resume-chip';
+  chip.type = 'button';
+  chip.innerHTML = `<span aria-hidden="true">↻</span> Resume: ${MISSION_LABELS[last] || last}`;
+  chip.addEventListener('click', async () => {
+    chip.setAttribute('aria-disabled', 'true');
+    try {
+      await runFirstRunChoice(last, {
+        setContextMode: (mode) => styleManager.setContextMode(mode),
+        setLayerEnabled: (layerId) =>
+          dataManager.setEnabled(layerId, true, { origin: 'user' }),
+        flyToGlobe: () => styleManager.resetToGlobeView(),
+      });
+    } catch (error) {
+      console.warn('[First run] Resume failed:', error);
+    }
+    chip.removeAttribute('aria-disabled');
+  });
+  documentRef.body.appendChild(chip);
+  // Auto-dismiss after 12s — it's a shortcut, not a billboard.
+  setTimeout(() => chip.remove(), 12000);
+  return chip;
+}
+
+/** Persist the last successfully launched mission for the resume chip. */
+export function recordLastMission(choice, storage) {
+  if (!choice || !FIRST_RUN_MISSIONS[choice] || choice === 'explore') return;
+  writeStored('local', storage, LAST_MISSION_KEY, choice);
 }

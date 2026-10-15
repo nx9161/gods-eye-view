@@ -8,6 +8,8 @@ const STYLE_KEYS = Object.freeze({
   7: 'snow',
 });
 
+import { createShortcutOverlay } from './shortcutOverlay.js';
+
 /**
  * Bind the application's existing bubbling keyboard shortcuts.
  * Capture-phase surfaces keep first refusal. The caller owns each action and
@@ -23,12 +25,17 @@ export function bindApplicationShortcuts({
   searchInput,
   actions,
 }) {
+  const overlay = createShortcutOverlay(documentRef);
   const onKeyDown = (event) => {
     const isFormControl =
       event.target?.matches?.('select, input, textarea') ||
       event.target === searchInput;
     if (isFormControl && event.key !== 'Escape') return;
 
+    if (event.key === '?') {
+      overlay.toggle();
+      return;
+    }
     if (STYLE_KEYS[event.key]) actions.setStyle(STYLE_KEYS[event.key]);
     if (event.key === 'Escape') actions.dismissSearch();
     const key = event.key.toLowerCase();
@@ -43,6 +50,7 @@ export function bindApplicationShortcuts({
   return {
     destroy() {
       documentRef.removeEventListener('keydown', onKeyDown);
+      overlay.destroy();
     },
   };
 }

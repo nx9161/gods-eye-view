@@ -410,3 +410,44 @@ body.scene-playback-mode #first-run-launcher {
     scroll-behavior: auto;
   }
 }
+
+/* Last-mission quick-resume chip */
+#gev-resume-chip {
+  position: fixed;
+  bottom: calc(2vh + 0.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(10, 18, 24, 0.92);
+  backdrop-filter: blur(12px);
+  color: var(--accent-bright);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  animation: resume-chip-in 400ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+
+#gev-resume-chip:hover {
+  border-color: rgba(0, 212, 255, 0.6);
+  box-shadow: 0 8px 32px rgba(0, 212, 255, 0.15);
+}
+
+#gev-resume-chip[aria-disabled='true'] {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+@keyframes resume-chip-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(12px);
+  }
+}
