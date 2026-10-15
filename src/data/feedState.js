@@ -3,10 +3,13 @@ import { GUIDANCE_STATUSES } from '../loadingFeedback.js';
 /**
  * Normalize heterogeneous layer stats into one honest control-chip state.
  * @param {object|null} stats Layer getStats() result.
- * @returns {'nominal'|'loading'|'degraded'|'stale'|'partial'|'fallback'|'unavailable'} Feed state.
+ * @returns {'nominal'|'loading'|'degraded'|'stale'|'partial'|'fallback'|'unavailable'|'not_configured'} Feed state.
  */
 export function layerFeedState(stats = {}) {
   const state = stats || {};
+  // Terminal honesty wins over every other classification: an endpoint that
+  // isn't deployed is not "unavailable", it's not configured.
+  if (state.notConfigured === true) return 'not_configured';
   const status =
     typeof state.status === 'string' ? state.status.toLowerCase() : '';
   const source = `${state.source || ''} ${state.coverage || ''}`;

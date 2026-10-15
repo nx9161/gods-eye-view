@@ -1,1 +1,22 @@
-{"rewrites":[{"destination":"/index.html","source":"/((?!api/).*)"}]}
+{
+  "functions": {
+    "api/flights/index.js": {
+      "maxDuration": 10
+    },
+    "api/flights/track.js": {
+      "maxDuration": 10
+    },
+    "api/openai/hud-summary.js": {
+      "maxDuration": 30
+    },
+    "api/realtime/token.js": {
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    {
+      "destination": "/index.html",
+      "source": "/((?!api/).*)"
+    }
+  ]
+}

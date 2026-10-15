@@ -105,7 +105,7 @@ export async function readResponse(
   return { response, payload };
 }
 
-export function httpError(response, source) {
+export function httpError(response, source, url = null) {
   const status = response.status;
   const code =
     status === 429
@@ -113,7 +113,7 @@ export function httpError(response, source) {
       : status === 401 || status === 403
         ? 'denied'
         : 'unavailable';
-  return new LiveSourceError(
+  const error = new LiveSourceError(
     code,
     status === 429 ? `${source} rate limited` : `${source} HTTP ${status}`,
     {
@@ -122,4 +122,15 @@ export function httpError(response, source) {
       retryAfterMs: code === 'limited' || code === 'denied' ? 45000 : 20000,
     },
   );
+  // A 404/501 from one of our own /api/* routes means the endpoint isn't
+  // deployed — structural, never transient. Layers use this to show
+  // NOT CONFIGURED instead of retry-looping a route that cannot exist.
+  if (
+    (status === 404 || status === 501) &&
+    typeof url === 'string' &&
+    url.startsWith('/api/')
+  ) {
+    error.structural = true;
+  }
+  return error;
 }

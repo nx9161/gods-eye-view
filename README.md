@@ -2,6 +2,12 @@
 
 # 🌐 God's Eye View
 
+> **Deploy snapshot:** this repo is a deployment snapshot of the upstream
+> [bilawalsidhu/gods-eye-view](https://github.com/bilawalsidhu/gods-eye-view)
+> (MIT, © Bilawal Sidhu 2026), with Vercel serverless ports (`api/`) and
+> Udaipur camera seeds added on top. See [DEPLOYED.md](./DEPLOYED.md) for
+> what actually runs on Vercel vs. what's local-dev-only.
+
 [![CI](https://github.com/bilawalsidhu/gods-eye-view/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/bilawalsidhu/gods-eye-view/actions/workflows/ci.yml) [![Reached #1 on GitHub Trending](https://img.shields.io/badge/%231_GitHub_Trending-thank_you!-F0A63C?style=flat-square&logo=github)](https://x.com/bilawalsidhu/status/2093798887815348521)
 
 ### A spy-satellite simulator in your browser — then you realize the sources are public and the data is real.

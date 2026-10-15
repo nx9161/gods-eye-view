@@ -52,11 +52,23 @@ export function makeCostRateLimiter(envValue, defaultPerMin) {
 }
 
 /**
- * Client key for rate limiting. Uses the real socket peer address only — we do
- * NOT trust X-Forwarded-For (client-controlled; a rotating value would mint fresh
- * quota and grow the limiter map). This is a localhost dev proxy, so the socket
- * address is the real client.
+ * Client key for rate limiting.
+ *
+ * On Vercel the edge sets x-real-ip to the true client IP while the socket is
+ * the edge's own internal address — without this, every visitor shares one
+ * 30/min bucket and a single aggressive client starves the feature for
+ * everyone. A spoofed x-real-ip only buys the spoofer their own bucket
+ * (limit evasion, never starvation of others), which strictly beats the
+ * shared-bucket failure mode. On the dev server no x-real-ip is set, so
+ * behavior there is unchanged (socket peer = real client). We still do NOT
+ * trust X-Forwarded-For: leftmost entries are client-controlled.
  */
 export function clientKey(req) {
-  return String(req.socket?.remoteAddress || 'local');
+  const realIp = String(req?.headers?.['x-real-ip'] || '').trim();
+  if (
+    /^(\d{1,3}\.){3}\d{1,3}$/.test(realIp) ||
+    /^[0-9a-fA-F:]{2,}$/.test(realIp)
+  )
+    return realIp;
+  return String(req?.socket?.remoteAddress || 'local');
 }

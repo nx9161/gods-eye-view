@@ -1,4 +1,5 @@
 import { ERROR_BACKOFF_INTERVAL } from './recordPolicy.js';
+import { applyStructuralMissing } from '../feedStructural.js';
 
 /** Own military source acquisition, cancellation, freshness and error backoff. */
 export function createIngestion({
@@ -60,6 +61,9 @@ export function createIngestion({
           throw new DOMException('Military update aborted', 'AbortError');
         }
         console.warn('[Data:Military] Fetch error:', e);
+        // Structural 404/501 on /api/*: the route isn't deployed. Terminal —
+        // report NOT CONFIGURED instead of retry-looping a missing route.
+        if (applyStructuralMissing(feed, e)) return;
         feed._backoff = true;
         feed._retryAt =
           Date.now() + (e?.retryAfterMs ?? ERROR_BACKOFF_INTERVAL);

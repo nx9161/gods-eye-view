@@ -16,6 +16,7 @@ const FEED_STATE_LABELS = Object.freeze({
   partial: 'PARTIAL',
   fallback: 'FALLBACK',
   unavailable: 'UNAVAILABLE',
+  not_configured: 'NOT CONFIGURED',
 });
 
 // Presentation order is independent of catalog registration and startup order.
@@ -540,6 +541,12 @@ export class LayerPanel {
     }
     const presentedError =
       stats.error || stats.lastError || stats.managerRefreshError;
+    // Structural truth, not a fault: the endpoint isn't on this deploy.
+    // No retry countdown — a countdown is a promise, and a promise against a
+    // route that cannot exist is a lie.
+    if (feedState === 'not_configured') {
+      return `NOT CONFIGURED · ${source} · not on this deploy`;
+    }
     if (presentedError) {
       if (typeof stats.retryInSec === 'number' && stats.retryInSec > 0) {
         return `${stateLabel} · ${source} · ${presentedError} · retry ${stats.retryInSec}s`;

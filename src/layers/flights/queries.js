@@ -935,6 +935,7 @@ export function createQueries({
         retryInSec,
         source: flightState.feed._lastSource,
         coverage: flightState.feed._lastCoverage,
+        notConfigured: flightState.feed._notConfigured === true,
       };
     },
   };

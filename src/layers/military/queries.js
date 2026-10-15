@@ -806,6 +806,7 @@ export function createQueries({
         retryInSec,
         source: flightState.feed._lastSource,
         fallback: false,
+        notConfigured: flightState.feed._notConfigured === true,
       };
     },
   };

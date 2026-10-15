@@ -16,8 +16,8 @@ import { normalizeVesselTrack, vesselSnapshot } from './vessels.js';
 const defaultFetch = (...args) => globalThis.fetch(...args);
 const header = (response, name) => response.headers?.get?.(name);
 
-function openSkyError(response) {
-  const error = httpError(response, 'Flights');
+function openSkyError(response, url = null) {
+  const error = httpError(response, 'Flights', url);
   const mode = String(
     header(response, 'x-opensky-auth-mode-used') ||
       header(response, 'x-opensky-auth') ||
@@ -73,13 +73,14 @@ export function createFlightSource({
         params.set('lat', query.latitude.toFixed(4));
         params.set('lon', query.longitude.toFixed(4));
       }
+      const url = `/api/flights${params.size ? '?' + params : ''}`;
       const { response, payload } = await readResponse(
         fetchImpl,
-        `/api/flights${params.size ? '?' + params : ''}`,
+        url,
         { signal },
         'Flights',
       );
-      if (!response.ok) throw openSkyError(response);
+      if (!response.ok) throw openSkyError(response, url);
       return {
         ...openSkySnapshot(payload, {
           // A fallback provider names itself in X-Flight-Source.
@@ -95,13 +96,14 @@ export function createFlightSource({
       };
     },
     async getTrack(reference, { signal } = {}) {
+      const url = '/api/flights/track?icao24=' + encodeURIComponent(reference);
       const { response, payload } = await readResponse(
         fetchImpl,
-        '/api/flights/track?icao24=' + encodeURIComponent(reference),
+        url,
         { signal },
         'Flights',
       );
-      if (!response.ok) throw httpError(response, 'Flights');
+      if (!response.ok) throw httpError(response, 'Flights', url);
       return {
         records: normalizeAircraftTrack(payload?.path),
         complete: false,
@@ -110,13 +112,14 @@ export function createFlightSource({
     async getEnrichment(query, { signal } = {}) {
       if (!['type', 'route'].includes(query.kind))
         throw new LiveSourceError('unsupported', 'Enrichment unavailable');
+      const url = `/api/adsbdb/${query.kind}/${encodeURIComponent(query.id)}`;
       const { response, payload } = await readResponse(
         fetchImpl,
-        `/api/adsbdb/${query.kind}/${encodeURIComponent(query.id)}`,
+        url,
         { signal },
         'adsbdb',
       );
-      if (!response.ok) throw httpError(response, 'adsbdb');
+      if (!response.ok) throw httpError(response, 'adsbdb', url);
       return payload;
     },
   };
@@ -129,23 +132,25 @@ export function createMilitarySource({
   return {
     label: 'Military aircraft',
     async getIdentities(_query = {}, { signal } = {}) {
+      const url = '/api/military';
       const { response, payload } = await readResponse(
         fetchImpl,
-        '/api/military',
+        url,
         { signal },
         'Military aircraft',
       );
-      if (!response.ok) throw httpError(response, 'Military aircraft');
+      if (!response.ok) throw httpError(response, 'Military aircraft', url);
       return readsbIdentities(payload);
     },
     async getSnapshot(_query = {}, { signal } = {}) {
+      const url = '/api/military';
       const { response, payload } = await readResponse(
         fetchImpl,
-        '/api/military',
+        url,
         { signal },
         'Military aircraft',
       );
-      if (!response.ok) throw httpError(response, 'Military aircraft');
+      if (!response.ok) throw httpError(response, 'Military aircraft', url);
       const age = finite(header(response, 'x-feed-age-ms'));
       return {
         ...readsbSnapshot(payload, {
@@ -158,13 +163,14 @@ export function createMilitarySource({
       };
     },
     async getTrack(reference, { signal } = {}) {
+      const url = '/api/military/track?hex=' + encodeURIComponent(reference);
       const { response, payload } = await readResponse(
         fetchImpl,
-        '/api/military/track?hex=' + encodeURIComponent(reference),
+        url,
         { signal },
         'Military aircraft',
       );
-      if (!response.ok) throw httpError(response, 'Military aircraft');
+      if (!response.ok) throw httpError(response, 'Military aircraft', url);
       const baseTimeMs = epoch(payload?.timestamp, 1000);
       return {
         records:
@@ -225,13 +231,14 @@ export function createVesselSource({
       };
     },
     async getTrack(reference, { signal } = {}) {
+      const url = '/api/vessels/track?mmsi=' + encodeURIComponent(reference);
       const { response, payload } = await readResponse(
         fetchImpl,
-        '/api/vessels/track?mmsi=' + encodeURIComponent(reference),
+        url,
         { signal },
         'Vessels',
       );
-      if (!response.ok) throw httpError(response, 'Vessels');
+      if (!response.ok) throw httpError(response, 'Vessels', url);
       return {
         records: normalizeVesselTrack(payload?.samples),
         complete: false,

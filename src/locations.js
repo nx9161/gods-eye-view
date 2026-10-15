@@ -522,7 +522,7 @@ export const CITY_POIS = {
   },
   udaipur: {
     name: 'Udaipur',
-    groundElevation: 600, // meters above WGS84 ellipsoid (city ~598m)
+    groundElevation: 600, // approx meters above mean sea level (city ~598m MSL)
     viewBounds: {
       southwest: { lat: 24.54, lng: 73.64 },
       northeast: { lat: 24.64, lng: 73.75 },
