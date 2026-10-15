@@ -46,6 +46,17 @@
   display: none;
 }
 
+/* Honest key state: warn-amber, not error-red — nothing is broken, the key
+   just isn't configured yet. */
+#gev-voice-control[data-status='setup'] #gev-voice-status {
+  color: var(--signal-warn);
+}
+
+#gev-voice-control[data-status='setup'] #gev-voice-detail {
+  color: var(--signal-warn);
+  opacity: 0.9;
+}
+
 /* The card takes the tray slot; the hover hint yields to it. */
 #gev-voice-control:has(.gev-voice-card:not([hidden])) .gev-voice-help-tray {
   display: none;
@@ -91,7 +102,7 @@
 }
 
 .gev-voice-card[data-busy='true'] .gev-voice-card-phase {
-  color: #ffc46b;
+  color: var(--signal-warn);
 }
 
 .gev-voice-card-dismiss {
@@ -198,7 +209,7 @@
 
 .gev-voice-card-step[data-status='running']::before {
   content: '◌';
-  color: #ffc46b;
+  color: var(--signal-warn);
 }
 
 .gev-voice-card-step[data-status='done']::before {
@@ -256,7 +267,7 @@
   [data-tone='fallback'],
   [data-tone='partial']
 ) {
-  color: #ffc46b;
+  color: var(--signal-warn);
   border-color: rgba(255, 196, 107, 0.45);
 }
 

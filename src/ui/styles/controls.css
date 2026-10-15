@@ -59,7 +59,7 @@
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 1.4px;
-  color: var(--text-dim);
+  color: var(--text-meta);
   text-transform: uppercase;
 }
 
@@ -91,7 +91,7 @@
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 1.4px;
-  color: var(--text-dim);
+  color: var(--text-meta);
 }
 
 .panel-drag-handle.compact:hover {
@@ -216,7 +216,7 @@
   font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 3px;
-  color: var(--text-dim);
+  color: var(--text-meta);
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -362,7 +362,7 @@
   right: 6px;
   font-family: var(--font-mono);
   font-size: 8px;
-  color: var(--text-dim);
+  color: var(--text-meta);
   opacity: 0;
   transition: opacity var(--transition-fast);
 }
@@ -557,7 +557,7 @@
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 1.4px;
-  color: var(--text-dim);
+  color: var(--text-meta);
 }
 
 #pp-toggles > .pp-header-row .pp-collapse-btn {
@@ -765,7 +765,7 @@
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 1px;
-  color: var(--text-dim);
+  color: var(--text-meta);
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -859,7 +859,7 @@
   letter-spacing: 0.6px;
   text-transform: uppercase;
   white-space: nowrap;
-  color: var(--text-dim);
+  color: var(--text-meta);
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 4px;
@@ -1001,7 +1001,7 @@
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 0.6px;
-  color: var(--text-dim);
+  color: var(--text-meta);
   line-height: 1.4;
 }
 body.gev-drawing #cesiumContainer canvas {
@@ -1024,7 +1024,7 @@ body.gev-drawing #cesiumContainer canvas {
   height: 22px;
   background: rgba(255, 255, 255, 0.04);
   border: none;
-  color: var(--text-dim);
+  color: var(--text-meta);
   font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 0.6px;
@@ -1214,7 +1214,7 @@ body.ui-clean-view #scene-runtime.active {
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 2.5px;
-  color: var(--text-dim);
+  color: var(--text-meta);
   text-transform: uppercase;
   white-space: nowrap;
 }

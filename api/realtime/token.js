@@ -16,5 +16,17 @@ const handler = createRealtimeTokenHandler();
 
 export default function (req, res) {
   if (!vercelSameSiteOk(req, res)) return;
+  // Lightweight configuration probe: lets the client show an honest
+  // SETUP NEEDED state (and gate the MIC onboarding tip) without minting
+  // a throwaway token.
+  if (req.method === 'GET' && req.query?.probe === '1') {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'no-store');
+    res.end(
+      JSON.stringify({ configured: Boolean(process.env.OPENAI_API_KEY) }),
+    );
+    return;
+  }
   return handler(req, res);
 }

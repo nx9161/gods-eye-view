@@ -25,12 +25,12 @@
 }
 #cockpit-entry:hover,
 #cockpit-entry:focus-visible {
-  border-color: #00dcff;
+  border-color: var(--accent);
   color: #fff;
   outline: none;
 }
 #cockpit-entry .material-symbols-outlined {
-  color: #00dcff;
+  color: var(--accent);
   font-size: 18px;
 }
 #cockpit-entry kbd {
@@ -42,7 +42,7 @@
 }
 
 #cockpit-hud {
-  --cockpit-accent: #00dcff;
+  --cockpit-accent: var(--accent);
   --cockpit-side-panel-width: min(340px, 28vw);
   /* HUD bottom offset + tallest scaled telemetry block + 20px clear border. */
   --cockpit-bottom-rail-safe: calc(clamp(84px, 11vh, 118px) + 100px);

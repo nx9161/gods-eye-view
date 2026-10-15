@@ -358,7 +358,7 @@
 #command-dock #gev-voice-control[data-status='error'] #gev-voice-detail {
   max-width: none;
   overflow: hidden;
-  color: #ffb4bd;
+  color: var(--signal-error);
   line-height: 1.2;
   text-align: center;
   text-overflow: ellipsis;

@@ -88,8 +88,30 @@ export function _syncCctvSourceBadge(activeCamera, enabled) {
   if (!enabled || !activeCamera) {
     this._cctvSourceBadge.textContent = 'SOURCE · UNKNOWN';
     this._cctvSourceBadge.dataset.frameState = 'idle';
+    this._cctvFrameWrap?.classList.remove('no-feed');
+    this._cctvFrameWrap?.removeAttribute('data-pose');
     return;
   }
+  // Positioned markers (e.g. the Udaipur seeds) have no feed URL — there is
+  // no frame to acquire, ever. Say so beautifully instead of flashing an
+  // error badge: neutral chip, radar-sweep card, honest pose microcopy.
+  if (!activeCamera.frameUrl) {
+    this._cctvSourceBadge.textContent = 'POSE MARKER · NO LIVE FEED';
+    this._cctvSourceBadge.dataset.frameState = 'seed';
+    const lat = Number(activeCamera.lat);
+    const lon = Number(activeCamera.lon ?? activeCamera.lng);
+    if (this._cctvFrameWrap) {
+      this._cctvFrameWrap.classList.add('no-feed');
+      this._cctvFrameWrap.dataset.pose =
+        Number.isFinite(lat) && Number.isFinite(lon)
+          ? `${Math.abs(lat).toFixed(4)}°${lat >= 0 ? 'N' : 'S'} ` +
+            `${Math.abs(lon).toFixed(4)}°${lon >= 0 ? 'E' : 'W'} · ESTIMATED POSE`
+          : 'ESTIMATED POSE · NO LIVE FEED';
+    }
+    return;
+  }
+  this._cctvFrameWrap?.classList.remove('no-feed');
+  this._cctvFrameWrap?.removeAttribute('data-pose');
   const hasDisplayedFrame =
     this._cctvFrameWrap?.classList.contains('has-frame');
   if (this._cctvFrame?.dataset.loading === 'true' && !hasDisplayedFrame) {

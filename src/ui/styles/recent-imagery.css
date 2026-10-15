@@ -282,7 +282,7 @@
   font-size: 8px;
   line-height: 11px;
   letter-spacing: 0;
-  color: var(--text-dim);
+  color: var(--text-meta);
 }
 .recent-imagery-readout .ri-card-chips {
   display: grid;

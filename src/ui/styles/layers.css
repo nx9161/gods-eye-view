@@ -409,7 +409,7 @@
 }
 #space-mission-panel-host .space-mission-roster-header output {
   flex: 0 0 auto;
-  color: #22e6e6;
+  color: var(--accent);
   font-size: 9px;
   letter-spacing: 0.08em;
 }
@@ -451,14 +451,18 @@
   z-index: 1;
   opacity: 0;
   background:
-    linear-gradient(#22e6e6, #22e6e6) left top / 9px 1px no-repeat,
-    linear-gradient(#22e6e6, #22e6e6) left top / 1px 9px no-repeat,
-    linear-gradient(#22e6e6, #22e6e6) right top / 9px 1px no-repeat,
-    linear-gradient(#22e6e6, #22e6e6) right top / 1px 9px no-repeat,
-    linear-gradient(#22e6e6, #22e6e6) left bottom / 9px 1px no-repeat,
-    linear-gradient(#22e6e6, #22e6e6) left bottom / 1px 9px no-repeat,
-    linear-gradient(#22e6e6, #22e6e6) right bottom / 9px 1px no-repeat,
-    linear-gradient(#22e6e6, #22e6e6) right bottom / 1px 9px no-repeat;
+    linear-gradient(var(--accent), var(--accent)) left top / 9px 1px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) left top / 1px 9px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) right top / 9px 1px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) right top / 1px 9px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) left bottom / 9px 1px
+      no-repeat,
+    linear-gradient(var(--accent), var(--accent)) left bottom / 1px 9px
+      no-repeat,
+    linear-gradient(var(--accent), var(--accent)) right bottom / 9px 1px
+      no-repeat,
+    linear-gradient(var(--accent), var(--accent)) right bottom / 1px 9px
+      no-repeat;
   filter: drop-shadow(0 0 4px rgba(34, 230, 230, 0.45));
   pointer-events: none;
   transition: opacity 0.12s ease;
@@ -483,9 +487,13 @@
   height: 5px;
   justify-self: center;
   border-radius: 50%;
-  background: var(--mission-roster-color, #22e6e6);
+  background: var(--mission-roster-color, var(--accent));
   box-shadow: 0 0 7px
-    color-mix(in srgb, var(--mission-roster-color, #22e6e6) 70%, transparent);
+    color-mix(
+      in srgb,
+      var(--mission-roster-color, var(--accent)) 70%,
+      transparent
+    );
 }
 #space-mission-panel-host .space-mission-roster-copy {
   display: grid;
@@ -555,14 +563,14 @@
   cursor: pointer;
 }
 #space-mission-panel .space-mission-view-header button:hover {
-  border-color: #22e6e6;
+  border-color: var(--accent);
   color: #fff;
 }
 #space-mission-panel .space-mission-detail {
   display: grid;
   gap: 8px;
   padding: 12px 0;
-  color: var(--hud-cyan, #22e6e6);
+  color: var(--hud-cyan, var(--accent));
   font:
     11px 'JetBrains Mono',
     monospace;
@@ -585,7 +593,7 @@
 }
 #space-mission-panel .mission-data-section h4 {
   margin: 0 0 6px;
-  color: #22e6e6;
+  color: var(--accent);
   font:
     10px 'JetBrains Mono',
     monospace;
@@ -706,7 +714,7 @@
 }
 #space-mission-panel .mission-focus-button {
   border-color: rgba(34, 230, 230, 0.58);
-  color: #22e6e6;
+  color: var(--accent);
   background: rgba(34, 230, 230, 0.07);
 }
 #space-mission-panel .mission-replay-button:hover,
@@ -720,11 +728,11 @@
 }
 #space-mission-panel .mission-focus-button:hover,
 #space-mission-panel .mission-focus-button:focus-visible {
-  border-color: #22e6e6;
+  border-color: var(--accent);
   box-shadow: 0 0 14px rgba(34, 230, 230, 0.14);
 }
 #space-mission-panel .mission-replay-button.active {
-  border-color: #22e6e6;
+  border-color: var(--accent);
   color: #d8ffff;
   background: rgba(34, 230, 230, 0.13);
   box-shadow: inset 0 0 16px rgba(34, 230, 230, 0.08);
@@ -745,7 +753,7 @@
   padding: 0;
   border: 1px solid rgba(34, 230, 230, 0.5);
   border-radius: 4px;
-  color: #22e6e6;
+  color: var(--accent);
   background: rgba(34, 230, 230, 0.08);
   font:
     15px/1 'JetBrains Mono',
@@ -778,7 +786,7 @@
 #space-mission-panel
   .mission-replay-transport.is-paused
   [data-mission-replay-play] {
-  border-color: #22e6e6;
+  border-color: var(--accent);
   color: #d8ffff;
   background: rgba(34, 230, 230, 0.18);
   box-shadow: inset 0 0 12px rgba(34, 230, 230, 0.1);
@@ -795,7 +803,7 @@
   padding: 7px 10px;
   border: 1px solid rgba(34, 230, 230, 0.55);
   background: rgba(8, 34, 42, 0.72);
-  color: #22e6e6;
+  color: var(--accent);
   font:
     11px 'JetBrains Mono',
     monospace;
@@ -808,7 +816,7 @@
 }
 #space-mission-panel .mission-nav-button:hover:not(:disabled) {
   background: rgba(34, 230, 230, 0.18);
-  border-color: #22e6e6;
+  border-color: var(--accent);
 }
 #space-mission-panel .mission-nav-button:disabled {
   cursor: not-allowed;
@@ -861,7 +869,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #22e6e6;
+  background: var(--accent);
   box-shadow: 0 0 7px rgba(34, 230, 230, 0.78);
 }
 
@@ -885,14 +893,14 @@
 }
 
 .mission-replay-rocket-body {
-  fill: #22e6e6;
-  stroke: #22e6e6;
+  fill: var(--accent);
+  stroke: var(--accent);
   stroke-width: 2;
   stroke-linejoin: round;
 }
 
 .mission-replay-rocket-port {
-  fill: #22e6e6;
+  fill: var(--accent);
   stroke: none;
 }
 
@@ -955,7 +963,7 @@
 }
 
 .mission-replay-overlay-callout strong {
-  color: #22e6e6;
+  color: var(--accent);
   font-size: 10px;
   font-weight: 500;
 }

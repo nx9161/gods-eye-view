@@ -344,16 +344,72 @@
 }
 
 #cctv-source-badge[data-frame-state='error'] {
-  color: #ffb0b0;
-  border-color: rgba(255, 102, 102, 0.5);
-  background: rgba(255, 72, 72, 0.11);
+  color: var(--signal-error);
+  border-color: rgba(255, 107, 122, 0.5);
+  background: rgba(255, 107, 122, 0.11);
+}
+
+/* Positioned marker: honest neutral chip, never error red. */
+#cctv-source-badge[data-frame-state='seed'] {
+  color: var(--accent-bright);
+  border-color: rgba(0, 212, 255, 0.4);
+  background: rgba(0, 212, 255, 0.08);
+}
+
+/* The intentional "no feed" signal card: radar sweep + pose microcopy.
+   This is a designed state, not a broken one. */
+.cctv-frame-wrap.no-feed::after {
+  content: '';
+  position: absolute;
+  inset: -45%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(0, 212, 255, 0.1) 36deg,
+    transparent 72deg
+  );
+  animation: cctv-radar-spin 5s linear infinite;
+  pointer-events: none;
+  opacity: 1;
+  transform: none;
+}
+
+.cctv-frame-wrap.no-feed {
+  background:
+    repeating-radial-gradient(
+      circle at 50% 46%,
+      transparent 0 34px,
+      rgba(0, 212, 255, 0.06) 34px 35px
+    ),
+    linear-gradient(180deg, rgba(8, 14, 19, 0.88), rgba(4, 7, 11, 0.96));
+}
+
+.cctv-frame-wrap.no-feed::before {
+  content: attr(data-pose);
+  position: absolute;
+  inset: auto 0 14px 0;
+  display: flex;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--accent-bright);
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes cctv-radar-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .cctv-summary-label {
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 1.7px;
-  color: var(--text-dim);
+  color: var(--text-meta);
 }
 
 #cctv-summary {

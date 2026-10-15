@@ -141,25 +141,25 @@
 }
 #global-loading-status[data-state='error'] {
   border-color: rgba(255, 98, 82, 0.55);
-  color: #ff9b8e;
+  color: var(--signal-error);
 }
 #global-loading-status[data-state='error'] #global-loading-label,
 #global-loading-status[data-state='error'] #global-loading-detail {
-  color: #ff9b8e;
+  color: var(--signal-error);
 }
 #global-loading-status[data-state='cancelled'] {
-  color: #ffd488;
+  color: var(--signal-warn);
 }
 #global-loading-status[data-state='retry'] {
   border-color: rgba(255, 212, 136, 0.55);
 }
 #global-loading-status[data-state='retry'] #global-loading-label,
 #global-loading-status[data-state='retry'] #global-loading-detail {
-  color: #ffd488;
+  color: var(--signal-warn);
 }
 #global-loading-status[data-state='cancelled'] #global-loading-label,
 #global-loading-status[data-state='cancelled'] #global-loading-detail {
-  color: #ffd488;
+  color: var(--signal-warn);
 }
 #global-loading-status[data-state='acquiring'] {
   border-color: rgba(0, 212, 255, 0.42);

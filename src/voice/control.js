@@ -1,4 +1,6 @@
 /** Build the voice control independently of its connection backend. */
+import { probeVoiceKey } from './voiceKeyProbe.js';
+
 export function createVoiceControl({ reset = false } = {}) {
   let root = document.getElementById('gev-voice-control');
   if (root && reset) {
@@ -80,6 +82,16 @@ export function createVoiceControl({ reset = false } = {}) {
         root.classList.add('error-dismissed');
       });
   }
+  // Honest key state (Scarlet Witch M1): if the backend has no API key,
+  // say SETUP NEEDED instead of idling as if voice works.
+  probeVoiceKey().then(({ configured }) => {
+    if (configured !== false || !root.isConnected) return;
+    root.dataset.status = 'setup';
+    const statusEl = root.querySelector('#gev-voice-status');
+    const detailEl = root.querySelector('#gev-voice-detail');
+    if (statusEl) statusEl.textContent = 'SETUP NEEDED';
+    if (detailEl) detailEl.textContent = 'VOICE NEEDS API KEY';
+  });
   return {
     root,
     button: root.querySelector('#gev-voice-button'),

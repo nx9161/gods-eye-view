@@ -9,11 +9,20 @@
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-border-hover: rgba(255, 255, 255, 0.15);
   --accent: #00d4ff;
+  --accent-bright: #8feaf2;
+  --accent-deep: #0899b8;
   --accent-dim: rgba(0, 212, 255, 0.15);
   --accent-glow: rgba(0, 212, 255, 0.4);
+  --signal-error: #ff6b7a;
+  --signal-warn: #ffcf6e;
+  --signal-ok: #5cffc6;
+  --signal-info: var(--accent);
   --text-primary: #e8eaed;
   --text-secondary: rgba(232, 234, 237, 0.5);
   --text-dim: rgba(232, 234, 237, 0.3);
+  /* Small informational text (8-10px labels, metadata): dim fails WCAG AA
+     at these sizes, so meta text gets its own passing token. */
+  --text-meta: rgba(232, 234, 237, 0.68);
   /* Opaque surface for browser-painted menus, which cannot use --glass-bg. */
   --menu-bg: #12121c;
   --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
@@ -306,9 +315,11 @@ body.cockpit-mode #cockpit-cloud-effects.active {
   white-space: nowrap;
   pointer-events: auto;
   font-family: var(--font-mono);
-  font-size: 10px;
-  color: rgba(232, 234, 237, 0.55);
+  font-size: 9px;
+  color: rgba(232, 234, 237, 0.4);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+  /* Quiet zone: clear of the HUD bottom-left cluster. */
+  margin-bottom: 8px;
 }
 #cesium-credits .cesium-credit-logoContainer,
 #cesium-credits .cesium-credit-textContainer,
@@ -469,7 +480,7 @@ body.cockpit-mode #cockpit-cloud-effects.active {
 }
 
 #gev-voice-control[data-status='error'] #gev-voice-status {
-  color: #ff5c6e;
+  color: var(--signal-error);
 }
 
 #gev-voice-control[data-status='error'] .gev-voice-readout {
@@ -480,7 +491,7 @@ body.cockpit-mode #cockpit-cloud-effects.active {
 #gev-voice-control[data-status='error'] #gev-voice-detail {
   max-width: none;
   overflow: visible;
-  color: #ffb4bd;
+  color: var(--signal-error);
   line-height: 1.45;
   text-overflow: clip;
   white-space: pre-wrap;

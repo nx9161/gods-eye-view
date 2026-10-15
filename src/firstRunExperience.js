@@ -1,4 +1,5 @@
 import { createSurfaceKeyboard } from './ui/surfaceKeyboard.js';
+import { probeVoiceKey } from './voice/voiceKeyProbe.js';
 
 // First-run mission launcher.
 //
@@ -363,6 +364,11 @@ export function initFirstRunExperience({
     environmentalTitle.textContent = environmentalLabel().title;
 
   const status = root.querySelector('[data-first-run-status]');
+  // The MIC tip only makes sense when voice is actually configured — don't
+  // advertise a button that can't work (Scarlet Witch M4).
+  probeVoiceKey().then(({ configured }) => {
+    if (configured === false) status?.setAttribute('hidden', '');
+  });
   const suppressBox = root.querySelector('[data-first-run-suppress]');
   const buttons = [...root.querySelectorAll('[data-first-run-choice]')];
   const defaultStatus = status?.textContent || '';

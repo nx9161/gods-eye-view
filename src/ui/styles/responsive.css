@@ -42,9 +42,6 @@
   #title-bar h1 {
     font-size: 16px;
     letter-spacing: 4px;
-  }
-
-  #title-bar h1 {
     gap: 8px;
   }
 
@@ -74,9 +71,14 @@
   }
 
   #gev-voice-control {
-    right: 16px;
-    bottom: 16px;
+    /* Bottom-center, docked above the command dock — thumb territory,
+       not the bottom-right corner where thumbs fight it. */
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    bottom: calc(2vh + 4.75rem);
     min-width: 196px;
+    margin-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   #gev-voice-detail {
@@ -123,14 +125,21 @@
   }
 
   #data-panel {
+    /* Bottom sheet, not a shrunken desktop panel: full-bleed, anchored to
+       the bottom edge, slides over the dock when open. */
     top: auto;
-    left: 16px;
-    bottom: 200px;
-    width: 260px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    max-height: 52vh;
+    border-radius: 18px 18px 0 0;
+    border-bottom: none;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   #data-panel.collapsed {
-    width: 260px;
+    width: auto;
   }
 
   #cctv-panel {

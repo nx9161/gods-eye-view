@@ -218,7 +218,7 @@
   font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 1px;
-  color: var(--text-dim);
+  color: var(--text-meta);
 }
 
 .scene-shot-row {
@@ -267,7 +267,7 @@
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 0.8px;
-  color: var(--text-dim);
+  color: var(--text-meta);
 }
 
 .scene-shot-actions {

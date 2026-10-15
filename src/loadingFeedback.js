@@ -236,8 +236,15 @@ export function reduceTrafficSyncFeedback(
     (hasProgress && (progressPct < 100 || (stats.prewarmQueueDepth ?? 0) > 0));
   const label = String(stats.phaseLabel || stats.loadingLabel || '').trim();
 
-  if (busy) {
+  // A console that never stops "syncing" feels untrustworthy. If the layer
+  // reports busy for 45 straight seconds, the sync is stuck — settle to the
+  // quiet steady state instead of spinning forever.
+  const busySince = busy ? state.busySince || now : 0;
+  const stuckBusy = busy && busySince > 0 && now - busySince > 45000;
+
+  if (busy && !stuckBusy) {
     return {
+      busySince,
       busy: true,
       visible: true,
       confirmationUntil: 0,
