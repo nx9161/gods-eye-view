@@ -2,7 +2,7 @@
 
 # 🌐 God's Eye View
 
-[![CI](https://github.com/bilawalsidhu/gods-eye-view/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/bilawalsidhu/gods-eye-view/actions/workflows/ci.yml) [![Reached #1 on GitHub Trending](https://img.shields.io/badge/%231_GitHub_Trending-thank_you!-F0A63C?style=flat-square&logo=github)](https://x.com/bilawalsidhu/status/2093798887815348521)
+[![CI](https://github.com/nx9161/gods-eye-view/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/nx9161/gods-eye-view/actions/workflows/ci.yml) [![Reached #1 on GitHub Trending](https://img.shields.io/badge/%231_GitHub_Trending-thank_you!-F0A63C?style=flat-square&logo=github)](https://x.com/bilawalsidhu/status/2093798887815348521)
 
 ### A spy-satellite simulator in your browser — then you realize the sources are public and the data is real.
 
@@ -37,6 +37,10 @@ _“pretty cool”_ — [Brendan Eich](https://x.com/BrendanEich/status/20945920
 </div>
 
 ---
+
+## Live Demo
+
+**[https://gods-eye-view-five-mocha.vercel.app](https://gods-eye-view-five-mocha.vercel.app)**
 
 ## 🌍 Why This Exists
 
@@ -585,3 +589,7 @@ One heads-up from the inside: build in this space for a week and you learn that 
 **🌐 God's Eye View. No place left behind.**
 
 </div>
+
+---
+
+Built by **Naman Parmar** ([nx9161](https://github.com/nx9161)).
